@@ -1,0 +1,22 @@
+removelist 'BonesPiles'
+if not listexists 'BonesPiles'
+  createlist 'BonesPiles'
+  pushlist 'BonesPiles' 0x1b0a
+  pushlist 'BonesPiles' 0x1b0b
+  pushlist 'BonesPiles' 0x1b0c
+  pushlist 'BonesPiles' 0x1b0d
+  pushlist 'BonesPiles' 0x1b0e
+  pushlist 'BonesPiles' 0x1b0f
+  pushlist 'BonesPiles' 0x1b17
+  pushlist 'BonesPiles' 0x1b18
+  pushlist 'BonesPiles' 0x1b10
+  pushlist 'BonesPiles' 0x1b09
+endif
+for 0 to 'BonesPiles'
+  while @findtype BonesPiles[] 'any' 'backpack' '1' '2'
+    usetype 0xf9e '0' 'backpack' '2'
+    waitingfortarget 500
+    target! 'found'
+    pause 400
+  endwhile
+endfor

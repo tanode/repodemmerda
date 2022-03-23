@@ -1,0 +1,40 @@
+if @findobject 'enemy'
+  virtue 'honor'
+  waitingfortarget 400
+  target 'enemy' 400
+  attack 'enemy'
+  @setalias 'mob' 'enemy'
+endif
+if targetexists
+  canceltarget
+endif
+while not @inrange 'mob' 1
+  if @x 'mob' > x 'self' and @y 'mob' > y 'self'
+    run 'Southeast'
+    continue
+  elseif @x 'mob' < x 'self' and @y 'mob' > y 'self'
+    run 'Southwest'
+    continue
+  elseif @x 'mob' > x 'self' and @y 'mob' < y 'self'
+    run 'Northeast'
+    continue
+  elseif @x 'mob' < x 'self' and @y 'mob' < y 'self'
+    run 'Northwest'
+    continue
+  elseif @x 'mob' > x 'self' and @y 'mob' == y 'self'
+    run 'East'
+    continue
+  elseif @x 'mob' < x 'self' and @y 'mob' == y 'self'
+    run 'West'
+    continue
+  elseif @x 'mob' == x 'self' and @y 'mob' > y 'self'
+    run 'South'
+    continue
+  elseif @x 'mob' == x 'self' and @y 'mob' < y 'self'
+    run 'North'
+    continue
+  endif
+  if not @findobject 'mob'
+    break
+  endif
+endwhile

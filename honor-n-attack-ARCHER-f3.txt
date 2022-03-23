@@ -1,0 +1,75 @@
+clearignorelist
+ignoreobject 'self'
+@unsetalias 'victim'
+@getenemy 'murderer''enemy''gray''closest'
+//getenemy 'enemy''closest'
+if not @findobject 'enemy'
+  @getenemy 'murderer''enemy' 'gray' 'next'
+  @sysmsg 'next' '55'
+  setalias 'victim' 'enemy'
+else
+  setalias 'victim' 'enemy'
+endif
+if @findobject 'victim'
+  if targetexists
+    canceltarget
+  endif
+  if maxhits 'victim' == hits 'victim'
+    autotargetobject! 'victim'
+    virtue 'honor'
+    pause 50
+    target! 'victim'
+  endif
+  @attack 'victim'
+  @setalias 'mob' 'victim'
+  headmsg 'TARGET NEMICO' 33 'victim'
+endif
+while @findobject 'mob'
+  if dead 'self'
+    stop
+  endif
+
+  if buffexists 'Blood Oath'
+    while buffexists 'Blood Oath'
+      warmode 'off'
+      cast 'remove curse' 'self'
+      pause 400
+    endwhile
+    warmode 'on'
+    @attack 'mob'
+  endif
+    if mana > 18
+    setability 'primary' 'on'
+    pause 600
+  endif
+  if not buffexists 'Consecrate Weapon' and mana > 8
+    cast 'Consecrate Weapon'
+    pause 500
+  endif
+  if not buffexists 'Divine Fury' or stam < 120
+    if mana > 10
+      cast 'Divine Fury'
+      pause 500
+    endif
+  endif
+  if buffexists 'Curse' and mana > 40
+    cast 'Remove Curse' 'self'
+    pause 700
+  endif
+  while diffhits > 70
+    chivalryheal 'self'
+  endwhile
+endwhile
+pause 100
+//if @findtype 0x2006 'any' 'ground' '1' '2'
+//@usetype 0x2d23 'any' 'backpack' '2'
+//waitfortarget 600
+//target! 'found'
+//ignoreobject 'found'
+//endif
+if @injournal 'for your valor'
+  for 2
+    sysmsg 'Bastardo hai DROPPATO un artefatto' 33
+  endfor
+  @clearjournal
+endif

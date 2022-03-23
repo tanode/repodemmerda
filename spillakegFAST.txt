@@ -1,0 +1,69 @@
+unsetalias 'rbag'
+if not findalias 'rbag'
+  headmsg 'Select Resurce Bag'
+  promptalias 'rbag'
+  useobject! 'rbag'
+  pause 1000
+endif
+if not listexists 'PotionList'
+  createlist 'PotionList'
+endif
+clearlist 'PotionList'
+//...
+@pushlist 'PotionList' 0xf07
+@pushlist 'PotionList' 0xf0b
+@pushlist 'PotionList' 0xf08
+@pushlist 'PotionList' 0xf0c
+@pushlist 'PotionList' 0xf09
+@pushlist 'PotionList' 0xf0a
+@pushlist 'PotionList' 0xf0d
+clearjournal
+canceltarget
+clearignorelist
+while @findtype '0x1940' 'any' 'rbag' '1' '2'
+  @setalias 'actualkeg' 'found'
+  waitforproperties 'actualkeg' 800
+  if @property 'The keg is empty' 'actualkeg'
+    ignoreobject 'actualkeg'
+    continue
+  endif
+  //posa bottiglie
+  if weight > 300
+    for 0 to 'PotionList'
+      while @findtype PotionList[] 'any' 'backpack' '1' '2'
+        if @counttype 'PotionList[]' 'any' 'backpack' > 13
+          @moveitem! 'found' 'rbag'
+          pause 800
+        endif
+      endwhile
+    endfor
+  endif
+  //prendi bottiglie
+  if not @findtype '0xf0e' '0' 'backpack' '1' '2'
+    if @findtype '0xf0e' '0' 'rbag' '1' '2'
+      if @counttype '0xf0e' '0' 'rbag' > 99
+        @moveitem! 'found' 'backpack' (0 0 0) '100'
+        pause 800
+      else
+        @moveitem! 'found' 'backpack'
+        pause 800
+      endif
+    elseif @findtype '0xf0e' '0' 'rbag' '1'
+      stop
+    endif
+  endif
+  clearjournal
+  @useobject! 'actualkeg'
+  @useobject! 'actualkeg'
+  pause 50
+  @setalias 'lastkeg' 'actualkeg'
+  waitforjournal 'You pour some of' 100 'system'
+  if @injournal 'The keg is empty'
+    ignoreobject 'lastkeg'
+    clearjournal
+  endif
+  if @injournal 'The keg is now empty'
+    ignoreobject 'lastkeg'
+    clearjournal
+  endif
+endwhile

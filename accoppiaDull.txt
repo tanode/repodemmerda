@@ -1,0 +1,41 @@
+@clearjournal
+@clearignorelist
+@removelist 'kitType'
+@unsetalias 'workingBag'
+if not @findobject 'workingBag'
+  headmsg 'Seleziona Bag da analizzare' '49'
+  promptalias 'workingBag'
+endif
+pause 100
+//
+if not listexists 'kitType'
+  createlist 'kitType'
+  //kit
+  pushlist 'kitType' 0x13e3 //horned 2117
+  //pushlist 'kitType' 2419
+endif
+//
+for 0 to 'kitType'
+  while @findtype kitType[] '2419' 'workingBag' '1' '2' //
+    @setalias 'kit' 'found'
+    waitforproperties 'kit' 600
+    if @property 'Uses Remaining' 'kit' < 61   //Intensità della prop
+      ignoreobject 'kit'
+      while @findtype kitType[] '2419' 'workingBag' '1' '2' //
+        waitforproperties 'found' 600
+        if @property 'Uses Remaining:' 'found' < 51
+          @useobject 'kit'
+          waitfortarget 600
+          @target! 'found'
+          break
+        else
+          ignoreobject 'found'
+        endif
+      endwhile
+      //clearignorelist
+    else
+      ignoreobject 'found'
+    endif
+  endwhile
+endfor
+

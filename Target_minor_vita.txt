@@ -1,0 +1,83 @@
+if @findalias 'buddy'
+  @unsetalias 'buddy'
+endif
+if not listexists 'BodyTypes'
+  createlist 'BodyTypes'
+  //human
+  pushlist 'BodyTypes' 0x190
+  pushlist 'BodyTypes' 0x191
+  //wraith
+  pushlist 'BodyTypes' 0x2ec
+  pushlist 'BodyTypes' 0x2eb
+  //elf
+  pushlist 'BodyTypes' 0x25d
+  pushlist 'BodyTypes' 0x25e
+  //wolfform
+  pushlist 'BodyTypes' 0x19
+  //savage
+  //pushlist 'BodyTypes' 0xb9
+  //lich
+  pushlist 'BodyTypes' 0x2ed
+  //vamp
+  // pushlist 'BodyTypes' 0x2e9
+  // pushlist 'BodyTypes' 0x2e8
+endif
+if not listexists 'ghosts'
+  createlist 'ghosts'
+  pushlist 'ghosts' 0x192
+  pushlist 'ghosts' 0x193
+  pushlist 'ghosts' 0x260
+  pushlist 'ghosts' 0x25f
+endif
+clearignorelist
+ignoreobject 'self'
+for 0 to 'BodyTypes'
+  while @findtype BodyTypes[] 'any' ground 0 10
+    if @infriendlist 'found' and paralyzed 'found'
+      cast 'clumsy' 'found'
+      while waitingfortarget 'harmful'
+      endwhile
+      warmode 'off'
+      warmode 'on'
+      warmode 'off'
+    endif
+    ignoreobject 'found'
+  endwhile
+endfor
+//allinone friends
+clearignorelist
+ignoreobject 'self'
+for 0 to 'BodyTypes'
+  while @findtype BodyTypes[] 'any' ground 0 10
+    if not @findalias 'buddy' and @infriendlist 'found'
+      if murderer 'found' and @inregion 'guards' 'found' 10
+        headmsg 'Murderer in guards!' 33 'found'
+      elseif criminal 'found' and @inregion 'guards' 'found' 10
+        headmsg 'Criminal in guards!' 1000 'found'
+      else
+        @setalias 'buddy' 'found'
+      endif
+    endif
+    if @infriendlist 'found' and hits 'found' < hits 'buddy'
+      if not yellowhits 'found'
+        if murderer 'found' and @inregion 'guards' 'found' 10
+          headmsg 'Murderer in guards!' 33 'found'
+        elseif criminal 'found' and @inregion 'guards' 'found' 10
+          headmsg 'Criminal in guards!' 1000 'found'
+        else
+          @setalias 'buddy' 'found'
+          headmsg 'Low!' 54 'found'
+        endif
+      else
+        @setalias 'buddy''found'
+        headmsg 'Mortaled!' 54 'found'
+      endif
+    endif
+    ignoreobject 'found'
+  endwhile
+endfor
+if targetexists 'beneficial' or targetexists 'neutral'
+  target! 'buddy'
+elseif targetexists 'harmful'
+  @canceltarget
+endif

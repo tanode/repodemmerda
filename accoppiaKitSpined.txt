@@ -1,0 +1,31 @@
+@clearjournal
+@clearignorelist
+@unsetalias 'workingBag'
+if not @findobject 'workingBag'
+  headmsg 'Seleziona Bag da analizzare' '49'
+  promptalias 'workingBag'
+endif
+pause 100
+//
+if not listexists 'kitType'
+  createlist 'kitType'
+  //kit
+  pushlist 'kitType' 0xf9d //horned 2117 //spined 2220 //
+endif
+//
+for 0 to 'kitType'
+  while @findtype kitType[] '2220' 'workingBag' '1' '2' //
+    @setalias 'kit' 'found'
+    ignoreobject 'kit'
+    if @findtype 0xf9d '2220' 'workingBag' '1' '2' //
+      @useobject 'kit'
+      waitfortarget 600
+      @target! 'found'
+      ignoreobject 'found'
+      pause 100
+    endif
+    //ignoreobject 'found'
+    pause 100
+  endwhile
+endfor
+

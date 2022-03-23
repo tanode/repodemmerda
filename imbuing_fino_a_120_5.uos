@@ -1,0 +1,220 @@
+if skill 'Imbuing' < 120
+  clearignorelist
+  while not @findobject 'cassarisorseimb'
+    headmsg 'seleziona la cassa cassarisorseimb'
+    promptalias 'cassarisorseimb'
+  endwhile
+  while not @findobject 'cassarestock'
+    headmsg 'seleziona la cassa cassarestock'
+    promptalias 'cassarestock'
+  endwhile
+  useobject 'cassarisorseimb'
+  pause 600
+  useobject 'cassarestock'
+  pause 600
+  if not @findobject 'pouch'
+    if @findtype 0xe79 'any' 'backpack'
+      setalias 'pouch' 'found'
+      pause 300
+    endif
+  endif
+  useobject 'pouch'
+  pause 700
+  //craft item
+  //controllo tinkertool
+  while counttype 0x1eb8 'any' 'pouch' < 2
+    while counttype 0x1bf2 'any' 'pouch' < 2
+      movetype 0x1bf2 'cassarestock' 'pouch' 0 0 0 0x0 2
+      pause 550
+    endwhile
+    //craft tinkertool
+    usetype 0x1eb8 'any' 'pouch'
+    waitforgump 0x7b28e708 1500
+    replygump 0x7b28e708 8
+    waitforgump 0x7b28e708 1500
+    replygump 0x7b28e708 23
+    pause 600
+  endwhile
+  pause 100
+  //controllo tong
+  while counttype 0xfbc 'any' 'pouch' < 2
+    while counttype 0x1bf2 'any' 'pouch' < 2
+      movetype 0x1bf2 'cassarestock' 'pouch' 0 0 0 0x0 2
+      pause 600
+    endwhile
+    //craft tong
+    usetype 0x1eb8 'any' 'pouch'
+    waitforgump 0x7b28e708 1500
+    replygump 0x7b28e708 8
+    waitforgump 0x7b28e708 1500
+    replygump 0x7b28e708 86
+    pause 600
+  endwhile
+  pause 100
+  //prendo lingotti
+  while counttype 0x1bf2 'any' 'pouch' < 120
+    movetype 0x1bf2 'cassarestock' 'pouch' 0 0 0 0x0 120
+    pause 700
+  endwhile
+  //emerald
+  while counttype 0x3194 'any' 'backpack' < 10
+    movetype 0x3194 'cassarestock''backpack' 0 0 0 0x0 10
+    pause 600
+  endwhile
+  //crafto e imbuio
+  //craft leaf
+  while counttype 0x2d22 'any' 'pouch' < 10
+    usetype 0xfbc 'any' 'pouch'
+    waitforgump 0x7b28e708 1500
+    replygump 0x7b28e708 29
+    waitforgump 0x7b28e708 1500
+    replygump 0x7b28e708 282
+    waitforgump 0x7b28e708 1500
+    replygump 0x7b28e708 0
+    pause 1000
+  endwhile
+  if skill 'Imbuing' < 120
+    while @findtype 0x2d22 'any' 'pouch'
+      //prendo risorse
+      //residue
+      while counttype 0x2db1 'any' 'backpack' < 10
+        movetype 0x2db1 'cassarisorseimb''backpack' 0 0 0 0x0 50
+        pause 600
+      endwhile
+      //enchanted
+      while counttype 0x2db2 'any' 'backpack' < 10
+        movetype 0x2db2 'cassarisorseimb''backpack' 0 0 0 0x0 50
+        pause 600
+      endwhile
+      //citrine
+      while counttype 0xf15 'any' 'backpack' < 10
+        movetype 0xf15 'cassarisorseimb''backpack' 0 0 0 0x0 100
+        pause 600
+      endwhile
+      //ruby
+      while counttype 0xf13 'any' 'backpack' < 10
+        movetype 0xf13 'cassarisorseimb''backpack' 0 0 0 0x0 100
+        pause 600
+      endwhile
+      waitforproperties 'found' 600
+      if not @property 'hit fire area''found'
+        useskill 'Imbuing'
+        waitforgump 0x2ce79929 1500
+        replygump 0x2ce79929 10005
+        waitfortarget 1500
+        target! 'found'
+        if @injournal 'You cannot imbue this item.' 'system'
+          clearjournal
+          pause 2000
+          ignoreobject 'found'
+          continue
+        endif
+        waitforgump 0xf60bb0f5 1500
+        replygump 0xf60bb0f5 10006
+        waitforgump 0xf60bb0f5 1500
+        replygump 0xf60bb0f5 10131
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10056
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10052
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10100
+        waitforgump 0x3e573b2a 1500
+        //endif
+      elseif @property 'damage increase''found' // < 50
+        useskill 'Imbuing'
+        waitforgump 0x2ce79929 1500
+        replygump 0x2ce79929 10005
+        waitfortarget 1500
+        target! 'found'
+        if @injournal 'You cannot imbue this item.' 'system'
+          clearjournal
+          pause 2000
+          //ignoreobject 'found'
+          continue
+        endif
+        waitforgump 0xf60bb0f5 1500
+        replygump 0xf60bb0f5 10002
+        waitforgump 0xf60bb0f5 1500
+        replygump 0xf60bb0f5 10112
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10056
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10052
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10100
+        waitforgump 0x2ce79929 1500
+      elseif not @property 'hit fireball''found'
+        useskill 'Imbuing'
+        waitforgump 0x2ce79929 1500
+        replygump 0x2ce79929 10005
+        waitfortarget 1500
+        target! 'found'
+        if @injournal 'You cannot imbue this item.' 'system'
+          clearjournal
+          pause 2000
+          //ignoreobject 'found'
+          continue
+        endif
+        waitforgump 0xf60bb0f5 1500
+        replygump 0xf60bb0f5 10007
+        waitforgump 0xf60bb0f5 1500
+        replygump 0xf60bb0f5 10137
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10056
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10052
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10052
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10051
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10100
+        waitforgump 0x2ce79929 1500
+      elseif not @property 'luck''found'
+        useskill 'Imbuing'
+        waitforgump 0x2ce79929 1500
+        replygump 0x2ce79929 10005
+        waitfortarget 1500
+        target! 'found'
+        if @injournal 'You cannot imbue this item.' 'system'
+          clearjournal
+          pause 2000
+          //ignoreobject 'found'
+          continue
+        endif
+        waitforgump 0xf60bb0f5 1500
+        replygump 0xf60bb0f5 10003
+        waitforgump 0xf60bb0f5 1500
+        replygump 0xf60bb0f5 10121
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10054
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10054
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10054
+        waitforgump 0x3e573b2a 1500
+        replygump 0x3e573b2a 10100
+        waitforgump 0x2ce79929 1500
+      else
+        ignoreobject 'found'
+      endif
+      //pause 1000
+    endwhile
+    useskill 'Imbuing'
+    waitforgump 0x2ce79929 1500
+    replygump 0x2ce79929 10011
+    waitfortarget 1500
+    target! 'pouch'
+    waitforgump 0x19e70b81 1500
+    replygump 0x19e70b81 1
+  endif
+  organizer 'risorse'
+  while organizing
+    pause 500
+  endwhile
+else
+  headmsg 'FINITO' 22 'self'
+  stop
+endif
+pause 200

@@ -1,0 +1,21 @@
+if not timerexists 'pozza'
+  createtimer 'pozza'
+  settimer 'pozza' 10001
+endif
+if @poisoned 'self'
+  if @findtype 0xf07 'any' 'backpack' '1' '2'  //pozza cure o miniheal
+    @useobject 'found' 
+  else
+  miniheal 'self'
+  endif
+  pause 300
+elseif @diffhits > 40 and @timer 'pozza' > 10000
+  if @findtype 0xf0c 0 'backpack'
+    @useobject 'found'
+    pause 300
+	settimer 'pozza' 0
+  endif
+elseif @diffhits 'self' > 5 and not @yellowhits 'self'
+  miniheal 'self'
+endif
+pause 10

@@ -1,0 +1,10 @@
+unsetalias 'secureitem'
+if not @findobject 'secureitem'
+  promptalias 'secureitem'
+endif
+moveitemoffset 'secureitem''ground'
+msg 'i wish to secure this'
+waitfortarget 1500
+target! 'secureitem'
+waitforgump 0x348ed539 15000
+replygump 0x348ed539 1

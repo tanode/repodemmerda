@@ -1,0 +1,153 @@
+waitforcontext 'self' 3 200
+waitfortarget 200
+if not targetexists
+  if gumpexists 0xfc186177
+    replygump 0xfc186177 1
+    pause 100
+  endif
+  waitforcontext 'self' 6 1000
+  waitfortarget 500
+endif
+@clearignorelist
+while @findtype 0x13cc 532 'backpack' //battle mage
+  waitforproperties 'found' 1000
+  if not @property 'Insured' 'found' and not  @property 'Blessed' 'found'
+    @target! 'found'
+    waitfortarget 2000
+    allymsg 'BATTLE MAGE insurata!'
+    partymsg 'BATTLE MAGE insurata!'
+  endif
+  ignoreobject 'found'
+endwhile
+while @findtype 0x1541 232 'backpack' //liutenant
+  waitforproperties 'found' 1000
+  if not @property 'Insured' 'found' and not  @property 'Blessed' 'found'
+    @target! 'found'
+    waitfortarget 2000
+    allymsg 'LIUTENANT insurata!'
+    partymsg 'LIUTENANT insurata!'
+  endif
+  ignoreobject 'found'
+endwhile
+while @findtype 0x1413 616 'backpack' //glad
+  waitforproperties 'found' 1000
+  if not @property 'Insured' 'found' and not  @property 'Blessed' 'found'
+    @target! 'found'
+    waitfortarget 2000
+    allymsg 'GLADIATOR insurato!'
+    partymsg 'GLADIATOR insurato!'
+  endif
+  ignoreobject 'found'
+endwhile
+while @findtype 0x2684 279 'backpack' //hp 4
+  waitforproperties 'found' 1000
+  if not @property 'Insured' 'found' and not  @property 'Blessed' 'found'
+    @target! 'found'
+    waitfortarget 2000
+    allymsg 'HOODED +4HP insurata!'
+    partymsg 'HOODED +4HP insurata!'
+  endif
+  ignoreobject 'found'
+endwhile
+while @findtype 0x2684 1155 'backpack' //tunica barra
+  waitforproperties 'found' 1000
+  if not @property 'Insured' 'found' and not  @property 'Blessed' 'found'
+    @target! 'found'
+    waitfortarget 2000
+    allymsg 'HOODED +5 STEALTH insurata!'
+    partymsg 'HOODED +5 STEALTH insurata!'
+  endif
+  ignoreobject 'found'
+endwhile
+while @findtype 0x170b 902 'backpack' //stivali int
+  waitforproperties 'found' 1000
+  if not @property 'Insured' 'found' and not  @property 'Blessed' 'found'
+    @target! 'found'
+    waitfortarget 2000
+    allymsg 'STIVALI +INT insurati!'
+    partymsg 'STIVALI +INT insurati!'
+  endif
+  ignoreobject 'found'
+endwhile
+while @findtype 0x301 1910 'backpack' //brace garg CM
+  waitforproperties 'found' 1000
+  if not @property 'Insured' 'found' and not  @property 'Blessed' 'found'
+    @target! 'found'
+    waitfortarget 2000
+    allymsg 'BRACERS OF DEVASTATION GARGOYL insurati!'
+    partymsg 'BRACERS OF DEVASTATION GARGOYL insurati!'
+  endif
+  ignoreobject 'found'
+endwhile
+while @findtype 0x1711 2012 'backpack' //scarpe um cm
+  waitforproperties 'found' 1000
+  if not @property 'Insured' 'found' and not  @property 'Blessed' 'found'
+    @target! 'found'
+    waitfortarget 2000
+    allymsg 'BOOTS OF ESCAPE UMANO insurati!'
+    partymsg 'BOOTS OF ESCAPE UMANO insurati!'
+  endif
+  ignoreobject 'found'
+endwhile
+while @findtype 0x1453 1910 'backpack' //bracer um cm
+  waitforproperties 'found' 1000
+  if not @property 'Insured' 'found' and not  @property 'Blessed' 'found'
+    @target! 'found'
+    waitfortarget 2000
+    allymsg 'BRACERS OF DEVASTATION UMANO insurati!'
+    partymsg 'BRACERS OF DEVASTATION UMANO insurati!'
+  endif
+  ignoreobject 'found'
+endwhile
+while @findtype 0x1087 2219 'backpack' //scarpe um cm
+  waitforproperties 'found' 1000
+  if not @property 'Insured' 'found' and not  @property 'Blessed' 'found'
+    @target! 'found'
+    waitfortarget 2000
+    allymsg 'ORECCHINI insurati!'
+    partymsg 'ORECCHINI insurati!'
+  endif
+  ignoreobject 'found'
+endwhile
+while @findtype 0x1ee1 0 'backpack' //testa che scompare deco
+  waitforproperties 'found' 1000
+  if not @property 'Insured' 'found' and not  @property 'Blessed' 'found'
+    @target! 'found'
+    waitfortarget 2000
+    allymsg 'MAGICAL DOOR insurata!'
+    partymsg 'MAGICAL DOOR insurata!'
+  endif
+  ignoreobject 'found'
+endwhile
+while @findtype 0x1ae1 'any' 'backpack' //skull
+  waitforproperties 'found' 1000
+  if not @property 'Insured' 'found'
+    @target! 'found'
+    waitfortarget 2000
+    allymsg 'SKULL insurato!'
+    partymsg 'SKULL insurato!'
+  endif
+  @ignoreobject 'found'
+endwhile
+while @findtype 0x1f14 'any' 'backpack' //skull
+  waitforproperties 'found' 1000
+  if @property 'Cursed' 'found'
+    // @target! 'found'
+    //  waitfortarget 2000
+    allymsg 'RUNA CORROTTA!'
+    partymsg 'RUNA CORROTTA!'
+  endif
+  @ignoreobject 'found'
+endwhile
+while @findtype 0x1540 1266 'backpack' //battle mage
+  waitforproperties 'found' 1000
+  if not @property 'Insured' 'found' and not  @property 'Blessed' 'found'
+    @target! 'found'
+    waitfortarget 2000
+    allymsg 'CROWN insurato!'
+    partymsg 'CROWN insurato!'
+  endif
+  ignoreobject 'found'
+endwhile
+@canceltarget
+snapshot 0

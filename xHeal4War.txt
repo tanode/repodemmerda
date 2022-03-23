@@ -1,0 +1,98 @@
+if @findalias 'buddy'
+  @unsetalias 'buddy'
+endif
+if not listexists 'BodyTypes'
+  createlist 'BodyTypes'
+  //human
+  pushlist 'BodyTypes' 0x190
+  pushlist 'BodyTypes' 0x191
+  //gargoyle
+  pushlist 'BodyTypes' 0x29b
+  pushlist 'BodyTypes' 0x29b
+  pushlist 'BodyTypes' 0x29a
+  //wraith
+  pushlist 'BodyTypes' 0x2ec
+  pushlist 'BodyTypes' 0x2eb
+  //elf
+  pushlist 'BodyTypes' 0x25d
+  pushlist 'BodyTypes' 0x25e
+  //wolfform
+  pushlist 'BodyTypes' 0x19
+  //savage
+  //pushlist 'BodyTypes' 0xb9
+  //lich
+  pushlist 'BodyTypes' 0x2ed
+  // gargo
+  pushlist 'BodyTypes' 0x29b
+  //vamp
+  // pushlist 'BodyTypes' 0x2e9
+  // pushlist 'BodyTypes' 0x2e8
+endif
+if not listexists 'ghosts'
+  createlist 'ghosts'
+  pushlist 'ghosts' 0x192
+  pushlist 'ghosts' 0x193
+  pushlist 'ghosts' 0x260
+  pushlist 'ghosts' 0x25f
+endif
+//paralyzed friends
+clearignorelist
+ignoreobject 'self'
+for 0 to 'BodyTypes'
+  while @findtype BodyTypes[] 'any' ground 0 10
+    if @infriendlist 'found' and paralyzed 'found'
+      cast 'Weaken' 'found'
+      while waitingfortarget 'harmful'
+      endwhile
+      warmode 'off'
+      warmode 'on'
+      warmode 'off'
+    endif
+    ignoreobject 'found'
+  endwhile
+endfor
+//allinone friends
+clearignorelist
+ignoreobject 'self'
+for 0 to 'BodyTypes'
+  while @findtype BodyTypes[] 'any' ground 0 10
+    if not @findalias 'buddy' and @infriendlist 'found'
+      if criminal 'found' and @inregion 'guards' 'found' 10
+        headmsg '[Criminal in guards!]' 1000 'found'
+      else
+        @setalias 'buddy' 'found'
+      endif
+    endif
+    if @infriendlist 'found' and hits 'found' < hits 'buddy'
+      if not yellowhits 'found'
+        if criminal 'found' and @inregion 'guards' 'found' 10
+          headmsg '[Criminal in guards!]' 1000 'found'
+        else
+          @setalias 'buddy' 'found'
+          headmsg '[Low!]' 54 'found'
+        endif
+      else
+        @setalias 'buddy''found'
+        headmsg '[Mortaled!]' 54 'found'
+      endif
+    endif
+    ignoreobject 'found'
+  endwhile
+endfor
+if targetexists 'beneficial' or targetexists 'neutral'
+  target! 'buddy'
+  pause 250
+elseif targetexists 'harmful'
+  @canceltarget
+endif
+if yellowhits 'buddy'
+  cast 'remove curse' 'buddy'
+elseif poisoned 'buddy' and @inrange 'buddy' 10
+  cast 'cleanse by fire' 'buddy'
+else diffhits 'buddy' >= 1
+  cast 'close wounds'
+  waitfortarget 1000
+  while @targetexists 'beneficial' and not @inrange 'buddy' 2
+  endwhile
+  target! 'buddy'
+endif

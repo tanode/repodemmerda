@@ -1,0 +1,57 @@
+if not listexists 'List'
+  createlist 'List'
+endif
+//clearlist 'List'
+//...
+@pushlist 'List' 0x1022        //tool bowcraft
+@pushlist 'List' 0x1bd7     // materiale legna 
+@pushlist 'List' 0x13b2   //prodotto finito shaft
+//@pushlist 'List' 0x1bd1   //materiale2 piume
+//@pushlist 'List' 0xf0c
+/// 0x1022 bowcraft
+//// 0x1bd7 legna (2010 oak)
+///  0x1bd4 shaft
+// 0x1bd1 piume
+// 0x1bfb crossbolt
+if not @findalias 'matsbag'
+  headmsg 'Select Bag Materiali'
+  promptalias 'matsbag'
+  @useobject 'matsbag'
+  pause 600
+endif
+if not @findalias 'storage'
+  headmsg 'Select Bag Prodotti Finiti'
+  promptalias 'storage'
+  @useobject 'storage'
+  pause 600
+endif
+if not @findtype 'List[0]' 'any' 'backpack' // tool <= 0
+  headmsg 'Servono tool in backpack!'
+  stop
+endif
+if counttype 'List[1]' '1192' 'backpack' < 1
+  movetype! 'List[1]' 'matsbag' 'backpack' (0 0 0) '1192' '500' '2'
+  pause 600
+endif
+//prendi mat2
+//if counttype 'List[3]' 'any' 'backpack' <= 0
+//movetype! 'List[3]' 'matsbag' 'backpack' (0 0 0) 'any' '2500' '2'
+//pause 600
+//endif
+//
+//apritool
+if not gumpexists '0x7b28e708'
+  usetype 'List[0]' 'any' 'backpack' '1'
+  waitforgump 0x7b28e708 1200
+endif
+
+//makelast craft
+replygump 0x7b28e708 21
+
+//posa pf
+while @counttype 'List[2]' 'any' 'backpack' > 0
+  @findtype 'List[2]' 'any' 'backpack'
+ 
+  moveitem 'found' 'storage'
+  pause 700
+endwhile

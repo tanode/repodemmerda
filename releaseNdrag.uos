@@ -1,0 +1,8 @@
+@unsetalias 'recoveritem'
+if not @findobject 'recoveritem'
+  promptalias 'recoveritem'
+endif
+msg 'i wish to release this'
+waitfortarget 1500
+target! 'recoveritem'
+moveitem 'recoveritem' 'backpack'

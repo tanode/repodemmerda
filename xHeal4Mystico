@@ -1,0 +1,66 @@
+if not @timerexists 'HP'
+  @createtimer 'HP'
+  @settimer 'HP' 99999999
+endif
+if not @timerexists 'HS'
+  @createtimer 'HS'
+  @settimer 'HS' 99999999
+endif
+if not @timerexists 'T'
+  @createtimer 'T'
+  @settimer 'T' 99999999
+endif
+if @poisoned 'self'
+  //@usetype 0xf07 'any' 'backpack' //cure
+  if @findtype 0xf07 'any' 'backpack' '1' '2'  //pozza cure o miniheal
+    @useobject 'found' 
+  else
+  miniheal 'self'
+  endif
+  pause 400
+endif
+if @yellowhits 'self' and @hits < 75
+  @usetype 0x2fd8 'any' 'backpack' // mela
+  //pause 300
+endif
+@unsetalias 'OK'
+if @timer 'HP' >= 10300 or @timer 'HS' > 15000
+  @setalias 'OK' 'self'
+endif
+if @diffhits > 40 and @findobject 'OK' and not @yellowhits 'self'
+  if @timer 'HP' >= 10300
+    @usetype 0xf0c 'any' 'backpack'// heal
+    @settimer 'HP' 0
+    pause 400
+  endif
+  if @timer 'HS' > 15000 and @diffhits > 50
+    @usetype 0x4078 'any' 'backpack' // stone
+    @settimer 'HS' 0
+    pause 380
+    if @findtype 0x4078 0 'backpack'
+      if property 'Healing Points' 'found' <= 80
+        sysmsg 'HEALING STONE QUASI FINITA!!!!!' 48
+      endif
+    else
+      sysmsg 'HEALING STONE FINITA!!!!!' 30
+    endif
+  endif
+elseif diffhits 'self' > 5 and not @yellowhits 'self'
+  miniheal 'self'
+  //##################################
+  if @timer 'T' > 2000
+    @settimer 'T' 0
+    if @timer 'HP' >= 10300
+      sysmsg 'Pozza Ok' 53
+    else
+      timermsg 'HP' 53
+    endif
+    if @timer 'HS' > 15000
+      sysmsg 'Stone Ok' 33
+    else
+      timermsg 'HS' 33
+    endif
+  endif
+  //####################################
+  pause 10
+endif

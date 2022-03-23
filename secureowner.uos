@@ -1,0 +1,4 @@
+msg 'i wish to secure this'
+waitfortarget 1500
+waitforgump 0x348ed539 15000
+replygump 0x348ed539 1
